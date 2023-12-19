@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>註冊</title>
+    <style>
+        .box {
+            width: 500px;
+            height: 500px;
+            background: #ecd6c7;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        h2 {
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .item_center {
+            text-align: center;
+            margin: 10px auto;
+        }
+
+        .no {
+            display:inline;
+        }
+    </style>
+</head>
+<body style="margin: 0 0 0 0;">
+    <div class="box">
+    <h2>註冊頁面</h2>
+    <form action="." method="POST" name="form1" class="no">
+        {% csrf_token %}
+        <table class="item_center">
+            <tr>
+                <th>使用者名稱</th><td>{{postform.cUserName}}</td>
+            </tr>
+            <tr>
+                <th>帳號</th><td>{{postform.cUserAccount}}</td>
+            </tr>
+            <tr>
+                <th>密碼</th><td>{{postform.cUserPassword}}</td>
+            </tr>
+        </table>
+        <div class="no">
+        <input type="submit" name="button" id="button" value="註冊" class="no"/>
+        </div>
+    </form>
+    <button onclick="window.location.href='http://127.0.0.1:8000/'">返回</button></br>
+    <span style="color:red">{{message}}</span>
+    </div>
+</body>
+</html>

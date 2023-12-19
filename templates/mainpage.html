@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>猜拳遊戲！</title>
+    <style>
+        .body_style_w {
+            color: #000000;
+            margin: 0 0 0 0;
+        }
+
+        .body_style_d {
+            color: #ffffff;
+            margin: 0 0 0 0;
+        }
+
+        .box {
+            width: auto;
+            height: 720px;
+            background: #ecd6c7;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .box_d {
+            width: auto;
+            height: 720px;
+            background: #1f1f1f;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .show_setting {
+            width: 60px;
+            height: 720px;
+            background: #000000;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+        }
+
+        .setting_box {
+            width: 400px;
+            height: 720px;
+            background: #5f5f5f;
+            position: absolute;
+            top: 0px;
+            left: 50px;
+            display: none;
+        }
+
+        .setting_box_show {
+            width: 400px;
+            height: 720px;
+            background: #5f5f5f;
+            position: absolute;
+            top: 0px;
+            left: 60px;
+            display: block;
+        }
+
+        h2 {
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .item_center {
+            text-align: center;
+            margin: 10px auto;
+        }
+
+        .no {
+            display:inline;
+        }
+
+        .big_text_size {
+            font-size: 60px;
+        }
+
+        .log_out {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .board {
+            width: 520px;
+            height: 720px;
+            background: #ffae00;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            display: block;
+        }
+        
+        .myS_line {
+            width: 350px;
+            position: absolute;
+            top: 18%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .rank {
+            width: 400px;
+            position: absolute;
+            top: 60%;
+            left: 55%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+{% if unit.cUserStyle == "w" %}
+<body class="body_style_w">
+{% else %}
+<body class="body_style_d">
+{% endif %}
+    <div>
+        <div class="show_setting">
+            <img id="setting_btn" onclick="fn_show_setting()" src="{% static "images/setting_img.png" %}" alt="" width="50" height="50"  style="position: absolute; left: 5px; top: 5px"/>
+        </div>
+        <div id="setting_box" class="setting_box">
+            <h1 class="item_center" style="color: white;">設定</h1>
+            <form action="/setting_style/" method="POST" name="form2" class="item_center">
+                {% csrf_token %}
+                {% if unit.cUserStyle == "w" %}
+                    <input type="radio" name="change_style" id="normal_style" value="w" checked="checked"/><a>一般模式</a>
+                    <input type="radio" name="change_style" id="dark_style" value="d"/><a>深色模式</a></br>
+                {% else %}
+                    <input type="radio" name="change_style" id="normal_style" value="w"/><a>一般模式</a>
+                    <input type="radio" name="change_style" id="dark_style" value="d" checked="checked"/><a>深色模式</a></br>
+                {% endif %}
+                <input type="submit" name="button" id="button" value="確認更改"/>
+                <input type="hidden" name="loged_in_name" id="loged_in_name" value="{{loged_in_name}}"/>
+                <input type="hidden" name="loged_in_account" id="loged_in_account" value="{{loged_in_account}}"/>
+                <input type="hidden" name="loged_in_password" id="loged_in_password" value="{{loged_in_password}}"/>
+                <input type="hidden" name="loged_in_picture" id="loged_in_picture" value="{{loged_in_picture}}"/>
+                <input type="hidden" name="loged_in_style" id="loged_in_style" value="{{loged_in_style}}"/>
+                <input type="hidden" name="loged_in_score" id="loged_in_score" value="{{loged_in_score}}"/>
+            </form>
+        </div>
+        {% if unit.cUserStyle == "w" %}
+        <div class="box">
+        {% else %}
+        <div class="box_d">
+        {% endif %}
+        <h2 style="font-size: 60px;">猜拳遊戲</h2>
+        <form action="/games/" method="POST" name="form1" class="big_text_size">
+            {% csrf_token %}
+            <table class="item_center">
+                <tr>
+                    <th><input type="submit" name="button" id="button" value="開始遊戲" class="big_text_size"/></th><td></td>
+                </tr>
+                <tr>
+                    <th></th><td>
+                        <input type="hidden" name="loged_in_name" id="loged_in_name" value="{{loged_in_name}}"/>
+                        <input type="hidden" name="loged_in_account" id="loged_in_account" value="{{loged_in_account}}"/>
+                        <input type="hidden" name="loged_in_password" id="loged_in_password" value="{{loged_in_password}}"/>
+                        <input type="hidden" name="loged_in_picture" id="loged_in_picture" value="{{loged_in_picture}}"/>
+                        <input type="hidden" name="loged_in_style" id="loged_in_style" value="{{loged_in_style}}"/>
+                        <input type="hidden" name="loged_in_score" id="loged_in_score" value="{{loged_in_score}}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th></th><td></td>
+                </tr>
+            </table>
+        </form>
+            <div class="log_out">
+            <button onclick="window.location.href='http://127.0.0.1:8000/'" style="margin-bottom: 20px;">登出</button></br>
+            <span style="color:red">{{message}}</span>
+        </div>
+        </div>
+        
+    </div>
+    <div class="board">
+        <img id="setting_btn" src="{% static "images/chuuka_raimon_line.png" %}" class="myS_line""/>
+        <a style="font-size: 35px; position: absolute; top: 10%; left: 30%;" >我的連勝：{{unit.cUserTemporarilyScore}}</a>
+        <img id="setting_btn" src="{% static "images/document_syorui_pen.png" %}" class="rank""/>
+        <a style="font-size: 25px; position: absolute; top: 36%; left: 30%;" >排行榜</a>
+        <a style="font-size: 25px; position: absolute; top: 42%; left: 30%;" >{{ranking_1}}</a>
+        <a style="font-size: 25px; position: absolute; top: 47%; left: 30%;" >{{ranking_2}}</a>
+        <a style="font-size: 25px; position: absolute; top: 52%; left: 30%;" >{{ranking_3}}</a>
+        <a style="font-size: 25px; position: absolute; top: 57%; left: 30%;" >{{ranking_4}}</a>
+        <a style="font-size: 25px; position: absolute; top: 62%; left: 30%;" >{{ranking_5}}</a>
+    </div>
+</body>
+</html>
+
+<script>
+
+function fn_show_setting(){
+    var value = document.getElementById("setting_box").className;
+    if (value == "setting_box_show") {
+        document.getElementById("setting_box").className = "setting_box";
+    } else {
+        document.getElementById("setting_box").className = "setting_box_show";
+    }
+};
+
+</script>

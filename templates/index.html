@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>首頁</title>
+    <style>
+        .box {
+            width: 500px;
+            height: 500px;
+            background: #ecd6c7;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        h2 {
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .item_center {
+            text-align: center;
+            margin: 10px auto;
+        }
+
+        .no {
+            display:inline;
+        }
+    </style>
+</head>
+<body style="margin: 0 0 0 0;">
+    <div class="box">
+    <h2>登入首頁</h2>
+    <form action="." method="POST" name="form1" class="no">
+        {% csrf_token %}
+        <table class="item_center">
+            <tr>
+                <th>帳號</th><td><input type="text" name="account" id="account" value="{{inputaccount}}"/></td>
+            </tr>
+            <tr>
+                <th>密碼</th><td><input type="password" name="password" id="password"/></td>
+            </tr>
+        </table>
+        <div class="no">
+        <input type="submit" name="button" id="button" value="登入" class="no"/>
+        </div>
+    </form>
+    <button onclick="window.location.href='http://127.0.0.1:8000/signup/'">註冊</button></br>
+    <span style="color:red">{{message}}</span>
+    </div>
+</body>
+</html>

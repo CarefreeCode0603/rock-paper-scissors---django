@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% load static %}
+        <style>
+            body {
+                background: #ecd6c7;
+            }
+
+            .box {
+                width: 500px;
+                height: 500px;
+                background: #ffffff;
+                margin: auto;
+            }
+
+            .box_player {
+                width: 500px;
+                height: 200px;
+                background: #000000;
+                margin: auto;
+            }
+
+            .item_hand {
+                position: absolute;
+                top: 17%;
+                left: 40.5%;
+                width: 90px;
+                z-index: 1;
+            }
+
+            .item_hand_l {
+                position: absolute;
+                top: 17%;
+                left: 55.5%;
+                width: 90px;
+                z-index: 1;
+            }
+
+            .item_janken {
+                position: absolute;
+                top: 2%;
+                left: 50%;
+                transform: translate(-50%);
+                width: 350px;
+		        z-index: 0;
+            }
+
+            .item_player {
+                width: 150px;
+                display: inline;
+                margin: auto;
+            }
+            
+            .no {
+                display:inline;
+            }
+
+            .board {
+                width: 520px;
+                height: 720px;
+                background: #ffae00;
+                position: absolute;
+                top: 0px;
+                right: 0px;
+                display: block;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <div class="box">
+                <img id="setting_btn" class="item_hand" src="{% static "images/janken.gif" %}"/>
+                <img id="setting_btn" class="item_hand_l" src="{% static "images/janken_l.gif" %}"/>
+                <img id="setting_btn" class="item_janken" src="{% static "images/onepiece20_santaisyou1_kizaru_borsalino.png" %}"/>
+            </div>
+            <div class="box_player" style="text-align: center;">
+                <form action="/janken_choki/" method="POST" name="form1" class="no">{% csrf_token %}
+                    <!-- <img onclick="window.location.href='http://127.0.0.1:8000/janken_choki/'" id="setting_btn" class="item_player" src="{% static "images/janken_choki.png" %}"/> -->
+                    <input type="image" src="{% static "images/janken_choki.png" %}" alt="Submit Form"  id="setting_btn" class="item_player"/>
+                    <input type="hidden" name="loged_in_account" id="loged_in_account" value="{{loged_in_account}}"/>
+                </form>
+                <form action="/janken_gu/" method="POST" name="form1" class="no">{% csrf_token %}
+                    <input type="image" src="{% static "images/janken_gu.png" %}" alt="Submit Form"  id="setting_btn" class="item_player"/>
+                    <input type="hidden" name="loged_in_account" id="loged_in_account" value="{{loged_in_account}}"/>
+                </form>
+                <form action="/janken_pa/" method="POST" name="form1" class="no">{% csrf_token %}
+                    <input type="image" src="{% static "images/janken_pa.png" %}" alt="Submit Form"  id="setting_btn" class="item_player"/>
+                    <input type="hidden" name="loged_in_account" id="loged_in_account" value="{{loged_in_account}}"/>
+                </form>
+                
+            </div>
+        </div>
+        <div class="board">
+            <form action="/back/" method="POST" name="form1" class="big_text_size">
+                {% csrf_token %}
+                <img id="setting_btn" src="{% static "images/placard_syuchusen.png" %}" width="500"/>
+                <a style="font-size: 45px; position: absolute; top: 80px; left: 125px;" >目前連勝：{{unit.cUserTemporarilyScore}}</a>
+                <input type="submit" name="button" id="button" value="返回" style="position: absolute; bottom: 20px; left: 5px;"/>
+                <input type="hidden" name="loged_in_name" id="loged_in_name" value="{{loged_in_name}}"/>
+                <input type="hidden" name="loged_in_account" id="loged_in_account" value="{{loged_in_account}}"/>
+                <input type="hidden" name="loged_in_password" id="loged_in_password" value="{{loged_in_password}}"/>
+                <input type="hidden" name="loged_in_picture" id="loged_in_picture" value="{{loged_in_picture}}"/>
+                <input type="hidden" name="loged_in_style" id="loged_in_style" value="{{loged_in_style}}"/>
+                <input type="hidden" name="loged_in_score" id="loged_in_score" value="{{loged_in_score}}"/>
+            </form>
+        </div>
+    </body>
+</html>
